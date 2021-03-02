@@ -1,0 +1,17 @@
+D:\Selenium_C#\Records\Records\bin\Debug\netcoreapp3.1\Records.exe
+D:\Selenium_C#\Records\Records\bin\Debug\netcoreapp3.1\Records.deps.json
+D:\Selenium_C#\Records\Records\bin\Debug\netcoreapp3.1\Records.runtimeconfig.json
+D:\Selenium_C#\Records\Records\bin\Debug\netcoreapp3.1\Records.runtimeconfig.dev.json
+D:\Selenium_C#\Records\Records\bin\Debug\netcoreapp3.1\Records.dll
+D:\Selenium_C#\Records\Records\bin\Debug\netcoreapp3.1\Records.pdb
+D:\Selenium_C#\Records\Records\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+D:\Selenium_C#\Records\Records\bin\Debug\netcoreapp3.1\WebDriver.Support.dll
+D:\Selenium_C#\Records\Records\bin\Debug\netcoreapp3.1\WebDriver.dll
+D:\Selenium_C#\Records\Records\obj\Debug\netcoreapp3.1\Records.csprojAssemblyReference.cache
+D:\Selenium_C#\Records\Records\obj\Debug\netcoreapp3.1\Records.AssemblyInfoInputs.cache
+D:\Selenium_C#\Records\Records\obj\Debug\netcoreapp3.1\Records.AssemblyInfo.cs
+D:\Selenium_C#\Records\Records\obj\Debug\netcoreapp3.1\Records.csproj.CoreCompileInputs.cache
+D:\Selenium_C#\Records\Records\obj\Debug\netcoreapp3.1\Records.csproj.CopyComplete
+D:\Selenium_C#\Records\Records\obj\Debug\netcoreapp3.1\Records.dll
+D:\Selenium_C#\Records\Records\obj\Debug\netcoreapp3.1\Records.pdb
+D:\Selenium_C#\Records\Records\obj\Debug\netcoreapp3.1\Records.genruntimeconfig.cache
