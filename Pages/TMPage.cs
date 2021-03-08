@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
+using Records.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,16 +15,19 @@ namespace Records.Pages
             //Verify if user is able to add a new record into the table
 
             //Identify Create New button and Click on it
+            Wait.ElementPresent(driver, "XPath", "//*[@id='container']/p/a");
             IWebElement timeRecord = driver.FindElement(By.XPath("//*[@id='container']/p/a"));
             timeRecord.Click();
             Thread.Sleep(500);
 
             //Identify TypeCode button and Click on it
+            Wait.ElementPresent(driver, "XPath", "//*[@id='TimeMaterialEditForm']/div/div[1]/div/span[1]");
             IWebElement typeCode = driver.FindElement(By.XPath("//*[@id='TimeMaterialEditForm']/div/div[1]/div/span[1]"));
             typeCode.Click();
             Thread.Sleep(500);
 
             //Select Time option from the TypeCode dropdown list
+            Wait.ElementPresent(driver, "XPath", "//*[@id='TypeCode_listbox']/li[2]");
             IWebElement typeCodeTime = driver.FindElement(By.XPath("//*[@id='TypeCode_listbox']/li[2]"));
             typeCodeTime.Click();
             Thread.Sleep(500);
@@ -64,44 +69,50 @@ namespace Records.Pages
             IWebElement FirstColumnValue = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
             String codeValue = FirstColumnValue.Text;
 
-            if (codeValue == "March21")
-                Console.WriteLine("Test Passed, Code value for the record created succesfully");
+            if(codeValue == "March21")
+              Assert.Pass("Test Passed, Code value for the record created succesfully");
+            else
+              Assert.Fail("Test Failed, Code value for the record not created succesfully");
 
             IWebElement SecondColumnValue = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[2]"));
             String typeCodeValue = SecondColumnValue.Text;
 
-            if (typeCodeValue == "T")
-                Console.WriteLine("Test Passed, TypeCode value for the record created succesfully");
+            if(typeCodeValue == "T")
+              Assert.Pass("Test Passed, TypeCode value for the record created succesfully");
+            else
+              Assert.Fail("Test Failed, TypeCode value for the record not created succesfully");
 
             IWebElement ThirdColumnValue = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
             String descriptionValue = ThirdColumnValue.Text;
 
-            if (descriptionValue == "This record is for time for March21")
-                Console.WriteLine("Test Passed, Description value for the record created succesfully");
+            if(descriptionValue == "This record is for time for March21")
+              Assert.Pass("Test Passed, Description value for the record created succesfully");
+            else
+              Assert.Fail("Test Failed, Description value for the record not created succesfully");
 
             IWebElement FourthColumnValue = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[4]"));
             String priceValue = FourthColumnValue.Text;
 
-            if (priceValue == "$11.99")
-                Console.WriteLine("Test Passed, Price value for the record created succesfully");
+            if(priceValue == "$11.99")
+              Assert.Pass("Test Passed, Price value for the record created succesfully");
+            else
+              Assert.Fail("Test Failed, Price value for the record not created succesfully");
 
             if ((codeValue == "March21") && (typeCodeValue == "T") && (descriptionValue == "This record is for time for March21") && (priceValue == "$11.99"))
-                Console.WriteLine("Test Passed, the new record is added successfully");
+              Assert.Pass("Test Passed, the new record is added successfully");
             else
-                Console.WriteLine("Test Failed, the record is not added successfully");
-
-            //Print the record values of the newly added record
-            Console.WriteLine("The new record entry is as follows: ");
-            Console.WriteLine("Code entered is: " + codeValue);
-            Console.WriteLine("TypeCode entered is: " + typeCodeValue);
-            Console.WriteLine("Description entered is: " + descriptionValue);
-            Console.WriteLine("Price Per Unit entered is: " + priceValue);
+              Assert.Fail("Test Failed, the new record is not added successfully");
         }
 
         public void EditTM(IWebDriver driver)
         {
-            //Verify if the user is able to edit a record from the table (last record in the table)
+            //Navigate to the last page
+            IWebElement lastPage = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
+            lastPage.Click();
+            Thread.Sleep(1500);
 
+            //Verify if the user is able to edit a record from the table (last record in the table)
+            
             //Identify the last record in the last page and print its details
             IWebElement lastRecordInTable = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]"));
             String recordToBeEdited = lastRecordInTable.Text;
@@ -112,7 +123,7 @@ namespace Records.Pages
 
             //Click on the edit
             Edit.Click();
-            Thread.Sleep(500);
+            Thread.Sleep(1500);
 
             //Identify the TypeCode
             IWebElement typeCodeChange = driver.FindElement(By.XPath("//*[@id='TimeMaterialEditForm']/div/div[1]/div/span[1]"));
@@ -122,19 +133,19 @@ namespace Records.Pages
             //Change the TypeCode value to Material
             IWebElement typeCodeMaterial = driver.FindElement(By.XPath("//*[@id='TypeCode_listbox']/li[1]"));
             typeCodeMaterial.Click();
-
+            Thread.Sleep(500);
 
             //Identify Code text box and edit the code value
             IWebElement codeEdit = driver.FindElement(By.Id("Code"));
             codeEdit.Clear();
             codeEdit.SendKeys("Feb21");
-            Thread.Sleep(500);
+            Thread.Sleep(1500);
 
             //Identify Description text box and input description
             IWebElement descriptionEdit = driver.FindElement(By.Id("Description"));
             descriptionEdit.Clear();
             descriptionEdit.SendKeys("This record is for Material for Feb21");
-            System.Threading.Thread.Sleep(150);
+            System.Threading.Thread.Sleep(1500);
 
 
             driver.FindElement(By.XPath("//*[@id='TimeMaterialEditForm']/div/div[4]/div/span[1]/span/input[1]")).Click();
@@ -147,53 +158,70 @@ namespace Records.Pages
 
             //Save the details after edit
             IWebElement saveAfterEdit = driver.FindElement(By.Id("SaveButton"));
+            System.Threading.Thread.Sleep(1500);
             saveAfterEdit.Click();
             System.Threading.Thread.Sleep(1500);
+
+            //Navigate to the last page
+            lastPage = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
+            lastPage.Click();
+
+            //Delay
+            System.Threading.Thread.Sleep(2000);
+
+            lastRecordInTable = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]"));
+            String editedRecord = lastRecordInTable.Text;
+            
+
+            System.Threading.Thread.Sleep(1500);
+            //Validate if the recorded is edited correctly by checking each column values
+            IWebElement FirstColumnVal = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
+            String codeVal = FirstColumnVal.Text;
+
+            if (codeVal == "Feb21")
+                Assert.Pass("Test Passed, Code value for the record edited succesfully");
+            else
+                Assert.Fail("Test Failed, Code value for the record not edited succesfully");
+
+            IWebElement SecondColumnVal = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[2]"));
+            String typeCodeVal = SecondColumnVal.Text;
+
+            if(typeCodeVal == "M")
+                Assert.Pass("Test Passed, typeCode value for the record edited succesfully");
+            else
+                Assert.Fail("Test Failed, typeCode value for the record not edited succesfully");
+
+            IWebElement ThirdColumnVal = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
+            String descriptionVal = ThirdColumnVal.Text;
+
+            if(descriptionVal == "This record is for Material for Feb21")
+                Assert.Pass("Test Passed, description value for the record edited succesfully");
+            else
+                Assert.Fail("Test Failed, description value for the record not edited succesfully");
+
+            //Console.WriteLine("Test Passed, Description value for the record edited succesfully");
+
+            IWebElement FourthColumnVal = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[4]"));
+            String priceVal = FourthColumnVal.Text;
+
+            if(priceVal == "")
+              Assert.Pass("Test Passed, price value for the record edited succesfully");
+            else
+              Assert.Fail("Test Failed, price value for the record not edited succesfully");
+
+            if((codeVal == "Feb21") && (typeCodeVal == "M") && (descriptionVal == "This record is for Material for Feb21") && (priceVal == ""))
+                Assert.Pass("Test Passed, the new record is edited successfully");
+            else
+                Assert.Fail("Test Failed, the record is not edited successfully");
+    }
+
+        public void DeleteTM(IWebDriver driver)
+        {
 
             //Navigate to the last page
             IWebElement lastPage = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]/span"));
             lastPage.Click();
 
-            //Delay
-            System.Threading.Thread.Sleep(1500);
-
-            lastRecordInTable = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]"));
-            String editedRecord = lastRecordInTable.Text;
-            Console.WriteLine("The edited record is" + editedRecord);
-
-            //Validate if the recorded is edited correctly
-            IWebElement FirstColumnVal = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
-            String codeVal = FirstColumnVal.Text;
-
-            if (codeVal == "Feb21")
-                Console.WriteLine("Test Passed, Code value for the record edited succesfully");
-
-            IWebElement SecondColumnVal = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[2]"));
-            String typeCodeVal = SecondColumnVal.Text;
-
-            if (typeCodeVal == "M")
-                Console.WriteLine("Test Passed, TypeCode value for the record edited succesfully");
-
-            IWebElement ThirdColumnVal = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[3]"));
-            String descriptionVal = ThirdColumnVal.Text;
-
-            if (descriptionVal == "This record is for Material for Feb21")
-                Console.WriteLine("Test Passed, Description value for the record edited succesfully");
-
-            IWebElement FourthColumnVal = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[4]"));
-            String priceVal = FourthColumnVal.Text;
-
-            if (priceVal == "")
-                Console.WriteLine("Test Passed, Price value for the record edited succesfully");
-
-            if ((codeVal == "Feb21") && (typeCodeVal == "M") && (descriptionVal == "This record is for Material for Feb21") && (priceVal == ""))
-                Console.WriteLine("Test Passed, the new record is edited successfully");
-            else
-                Console.WriteLine("Test Failed, the record is not edited successfully");
-    }
-
-        public void DeleteTM(IWebDriver driver)
-        {
             //Verify if an existing user's record can be deleted
 
             System.Threading.Thread.Sleep(1500);
@@ -207,7 +235,10 @@ namespace Records.Pages
             //Get the count of total records in the last page
             int lastrowCount = Records.Count;
 
+            //Retrieve the last row in the table
             IWebElement lastRow = Records[lastrowCount - 1];
+
+            //Retrieve the columns of the last row by tag id 'td'
             IList<IWebElement> columnsLastRow = lastRow.FindElements(By.TagName("td"));
 
             int columnCount = columnsLastRow.Count;
@@ -215,81 +246,53 @@ namespace Records.Pages
             //Delay
             System.Threading.Thread.Sleep(1500);
 
-            String recordToBeDeleted = null;
+            IWebElement recordToBeDeleted = null;
+            string RecordDeleted = null;
 
-            //Record to be deleted from the table
-            //Randomly select a record to deleted (say the second row in the last page if the last page has more than 2 records)
-            if (lastrowCount > 2)
-                recordToBeDeleted = Records[1].Text;
-            else if (lastrowCount == 2)
-                recordToBeDeleted = Records[0].Text;
-            else
-                recordToBeDeleted = Records[0].Text;
+            //Locate the last record (this is the record to be deleted)
+            recordToBeDeleted = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]"));
+            RecordDeleted = recordToBeDeleted.Text;
 
-            String currentText = null;
-            bool rowDeleted = false;
+            IList<IWebElement> editDelete = null;
+            IList<IWebElement> columnsOfLastRecord = null;
 
-            IWebElement rowToBeUpdated1 = null;
-            IList<IWebElement> editDeleteElements1 = null;
-            IList<IWebElement> columnsOfLastRow1 = null;
+            //Locate the Delete button
+            columnsOfLastRecord = recordToBeDeleted.FindElements(By.TagName("td"));
+            editDelete = columnsOfLastRecord[columnCount - 1].FindElements(By.TagName("a")); ;
+            editDelete[1].Click();
+            driver.SwitchTo().Alert().Accept();
 
-            //Loop through all the records until the record to be deleted is found
-            for (int rowcounterUpdated = 0; rowcounterUpdated < lastrowCount; rowcounterUpdated++)
-            {
-
-                //Get the current record in String format
-                currentText = Records[rowcounterUpdated].Text;
-
-                //Check if the current record matches the record to be deleted
-                bool stringEqual = currentText.Equals(recordToBeDeleted);
-
-                //Delete the record if match is found
-                if (stringEqual)
-                {
-                    Console.WriteLine("Record to be deleted found at row " + (rowcounterUpdated + 1));
-                    rowToBeUpdated1 = Records[rowcounterUpdated];
-                    columnsOfLastRow1 = rowToBeUpdated1.FindElements(By.TagName("td"));
-                    editDeleteElements1 = columnsOfLastRow1[columnCount - 1].FindElements(By.TagName("a")); ;
-                    editDeleteElements1[1].Click();
-                    driver.SwitchTo().Alert().Accept();
-                    rowDeleted = true;
-                    break;
-
-                }
-                else
-                {
-                    Console.WriteLine("Record to be deleted not found at row" + (rowcounterUpdated + 1));
-                    rowDeleted = false;
-                }
-
-            }
-
-            System.Threading.Thread.Sleep(15000);
+            System.Threading.Thread.Sleep(1500);
+            //Locate the updated table
             table = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table"));
+
+            //Retrieve the Updated records after the delete is performed
             IList<IWebElement> UpdatedRecords = table.FindElements(By.TagName("tr"));
             lastrowCount = UpdatedRecords.Count;
 
-            //validate if the row is actually deleted from the table
-            if (rowDeleted)
+            String currentText = null;
+
+            //Validate if the record is deleted
+            bool recordDeleted = true;
+            for (int rowcount = 0; rowcount < lastrowCount; rowcount++)
             {
-                bool stringEqualInRow = false;
-                for (int j = 0; j < lastrowCount; j++)
+
+                currentText = UpdatedRecords[rowcount].Text;
+                if (currentText.Equals(RecordDeleted))
+
                 {
+                    Console.WriteLine("Record is not deleted");
+                    recordDeleted = false;
+                    break;
 
-                    currentText = UpdatedRecords[j].Text;
-                    stringEqualInRow = currentText.Equals(recordToBeDeleted);
-                    if (stringEqualInRow)
-                    {
-                        Console.WriteLine("Record is not deleted");
-                        break;
-                    }
                 }
-                if (!stringEqualInRow)
-                    Console.WriteLine("Record is deleted successfully");
-
             }
+            if(recordDeleted)
+              Assert.Pass("Test passed, Record is deleted successfully");
             else
-                Console.WriteLine("Record not found in current page");
+              Assert.Fail("Test Failed, Record is not deleted successfully");
+
+
 
         }
 

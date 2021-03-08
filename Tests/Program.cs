@@ -1,5 +1,6 @@
-﻿
+﻿using NUnit.Framework;
 using Records.Pages;
+using Records.Utilities;
 using System;
 using System.Collections.Generic;
 using OpenQA.Selenium;
@@ -9,13 +10,13 @@ using System.Threading;
 
 
 namespace Records
-{
-    class Program
+{   
+    [TestFixture]
+    class Program :CommonDriver
     {
-        static void Main(string[] args)
+        [OneTimeSetUp]
+        public void Login()
         {
-            IWebDriver driver = new ChromeDriver();
-
             // login page obj and login steps
             LoginPage loginObj = new LoginPage();
             loginObj.LoginSteps(driver);
@@ -23,15 +24,38 @@ namespace Records
             // home page object and navigate step
             HomePage homeObj = new HomePage();
             homeObj.NavigateToTM(driver);
+        }
 
-            // TM page object and create step
+        [Test]
+        public void CreateTMTest()
+        {
+
+            //TM page object and create
             TMPage tmObj = new TMPage();
             tmObj.CreateTM(driver);
-            tmObj.EditTM(driver);
-            tmObj.DeleteTM(driver);
-
-            Thread.Sleep(500);
-
         }
+
+        [Test]
+        public void EditTMTest()
+        {
+            //TM page object and edit        
+            TMPage tmObj = new TMPage();
+            tmObj.EditTM(driver);
+        }
+
+        [Test]
+        public void DeleteTMTest()
+        {
+            //TM page object and delete
+            TMPage tmObj = new TMPage();
+            tmObj.DeleteTM(driver);
+        }
+
+        [OneTimeTearDown]
+        public void FinalSteps()
+        {
+            driver.Quit();
+        }
+
     }
 }
